@@ -1,0 +1,109 @@
+---
+title: "Problem3"
+author: "RAJAT"
+date: "19 January 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+packages required
+stringr-date conversions
+psych-describe
+dataexplorer-plot_str
+Vim-Missing Value visualization
+
+```{r}
+store.df2<- read.csv("orders.csv",na.strings=c("",".","NA"));
+#View(store.df2)
+str(store.df2)
+#View(store.df)
+#str(store.df)
+#View(store.df)
+#plot_str(store.df)
+```
+
+
+Lets convert the variables to required Data type.
+
+```{r}
+
+store.df2$ctd.ship.date<- as.Date(store.df$ctd.ship.date)
+store.df2$order.init.date<-as.Date(store.df$order.init.date)
+store.df2$atd.ship<- as.Date(store.df$atd.ship,"%Y-%m-%d")  #character string is not in a standard unambiguous format
+str(store.df2)
+plot_str(store.df2)
+
+```
+
+
+lets have a look into the Summary Statistics.
+
+```{r}
+summary(store.df2$contract.amount)
+describe(store.df2$contract.amount)
+```
+ lets plot the amount to see how it actually looks like
+ 
+```{r}
+hist(store.df2$contract.amount,main="Contract Amount for all the orders",
+     xlab="Contract Amount(Units)",
+     ylab="Counts",breaks=15 ,col="lightblue")
+```
+ 
+density Plots
+```{r}
+plot_density(store.df2)
+```
+ 
+lets have a look at the aggregation Possible.
+
+```{r}
+aggregate(store.df2$contract.amount,by=list(Customer_type=store.df2$ultimate.ship.to.customer.type),sum)
+aggregate(list(Mean_Contract_amount=store.df2$contract.amount),by=list(Customer_type=store.df2$ultimate.ship.to.customer.type),mean)
+```
+
+Since we have a lot of undefined customer type we need to focus on Missing value imputation.Making  a dataset for missing variables only.
+
+```{r}
+drops <- c('Contract Amount','j.level.channel.desc','j.level.channel.code','g.level.channel.desc','g.level.channel.code','n.level.region.desc','n.level.region.code','psi.code','psi.name','order.init.date','contract.amount','order.number')
+store.df1 <- store.df2[ , !(names(store.df2) %in% drops)]
+str(store.df1)
+store.df3<-subset(store.df1,select = c(ctd.ship.date,ctd.ship.date))
+```
+
+```{r}
+
+store.df3$ctd.ship.date<- as.Date(store.df$ctd.ship.date)
+
+store.df3$atd.ship<- as.Date(store.df$atd.ship,"%Y-%m-%d")
+```
+
+**Missing data Visualization**
+
+We specify the argument numbers = TRUE to display the numbers on top of the bars. The argument prop is a logical indicating whether the proportion of missing values and combinations should be used rather than the total amount. We set it to TRUE for the first plot and FALSE for the second.
+```{r}
+#aggr(store.df1, numbers = TRUE, prop = c(TRUE, FALSE))
+imputed <- mice(store.df3,method = 'polyreg')
+View(imputed)
+#mice_imputes$method
+#Imputed_data=complete(mice_imputes,5)
+#View(Imputed_data)
+```
+
+
+```{r}
+str(store.df3)
+```
+
+```{r}
+#store.df3$ctd.ship.date<- complete(store.df3$ctd.ship.date =seq.Date(min(store.df3$ctd.ship.date), max(store.df3$ctd.ship.date), by="day"))
+
+
+discount_data_df %>%
+ctd.ship.date  <- complete(ctd.ship.date = seq.Date(min(ctd.ship.date), max(ctd.ship.date), by="day"));
+#View(store.df3$ctd.ship.date)
+```
+
