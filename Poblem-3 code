@@ -105,5 +105,30 @@ str(store.df3)
 discount_data_df %>%
 ctd.ship.date  <- complete(ctd.ship.date = seq.Date(min(ctd.ship.date), max(ctd.ship.date), by="day"));
 #View(store.df3$ctd.ship.date)
+-----------------------------------------------------------
+Answer the Questions 
+1)Which year and month (based on “order init date” column) got highest number orders? Answer should be in YYYYMM format only.
+2)What is mode for column “n level region desc”?
+3)How many null values are present in column “ultimate ship-to customer type”? Answer should be in numbers only
+4)What is standard deviation for column “contract amount”?
+5)Which is highest selling product(column “psi code”) in region “N Level Region Code0”(column “n level region code”)?
+6)How many channels (column name g level channel code) booked more than 5000 orders?
+7)What is the absolute mean amount (column name “contract amount”) difference between top two regions (column “n level region code”) in terms of number of orders?
+Following three questions will be based on association rules mining. Perform Market Basket Analysis on the data, support should be at least 0.001 and confidence 0.7. Answer the below question based on the results of Market Basket Analysis. (Use Apriori algorithm only)
+8)Which rule has highest lift?
+9)How many rules are present after performing above apriori analysis?
+10)What is confidence for rule {Psi Code351} => {Psi Code139}?
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
