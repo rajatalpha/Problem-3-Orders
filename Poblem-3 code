@@ -120,7 +120,59 @@ Following three questions will be based on association rules mining. Perform Mar
 10)What is confidence for rule {Psi Code351} => {Psi Code139}?
 
 
+Answers:
+1)Which year and month (based on “order init date” column) got highest number orders? Answer should be in YYYYMM format only.
 
+```{r}
+store.df2<- read.csv("orders.csv",na.strings=c("",".","NA"));
+store.df2$order.init.date <- format(as.Date(store.df2$order.init.date), "%Y%m")
+#mlv(store.df2$n.level.regiona.desc,method="mfv")
+Mode <- function(x){
+a = table(x) # x is a vector
+return(names(a)[which.max(a)])
+}
+Mode(store.df2$order.init.date)
+```
+
+2)What is mode for column “n level region desc”?
+```{r}
+Mode <- function(x){
+a = table(x) # x is a vector
+return(names(a)[which.max(a)])
+}
+Mode(store.df2$n.level.region.desc)
+```
+
+
+3)How many null values are present in column “ultimate ship-to customer type”? Answer should be in numbers only
+
+```{r}
+sum(is.na(store.df2$ultimate.ship.to.customer.type))
+```
+
+
+4)What is standard deviation for column “contract amount”?
+
+```{r}
+sd(store.df2$contract.amount)
+```
+
+
+5)Which is highest selling product(column “psi code”) in region “N Level Region Code0”(column “n level region code”)?
+
+```{r}
+Mode <- function(x,y){
+a = table(x,levels(y)[1]) # x is a vector
+return(names(a)[which.max(a)][])
+}
+Mode(store.df2$n.level.region.desc)
+```
+
+```{r}
+
+
+
+```
 
 
 
